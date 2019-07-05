@@ -1,0 +1,38 @@
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
+<div class="col-sm-11" style="margin-top: 1rem">
+    <div class="card border-primary">
+        <div class="card-body text-primary">
+            <div class="row">
+                <div class="col-sm-9" id="card">
+                    <input type="text" [ngStyle]="cardStyle" placeholder="Enter Attribute Name"
+                        value="{{attributeName}}" (click)="Toggle()">
+                    <input type="text" [ngStyle]="cardStyle" style="font-style: italic"
+                        placeholder="Enter Keyboard Shortcut" value="{{keyShortCut}}" (click)="Toggle()">
+                </div>
+                <div class="col-sm-2" class="row" *ngIf="show_Icons">
+                    <button mat-raised-button color="primary" (click)="Delete()" cdkFocusInitial
+                        style="margin-left: 3rem">
+                        <i class="fa fa-trash" id="icons"></i>
+                    </button>
+                    <button mat-raised-button color="primary" (click)="Toggle()" cdkFocusInitial id="saveBtn"
+                        style="margin-left: 1rem">
+                        <i class="fa fa-save" id="icons"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+        <div class="col-sm-10">
+            <mat-chip-list #chipList aria-label="Value selection" style="padding: 0.5rem">
+                <mat-chip *ngFor="let value of values" [selectable]="selectable" [removable]="removable"
+                    (removed)="remove(value)">
+                    {{value.name}}
+                    <mat-icon matChipRemove *ngIf="removable">cancel</mat-icon>
+                </mat-chip>
+                <input [matChipInputFor]="chipList" [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
+                    placeholder="{{inputPlaceholder}}" [ngStyle]="chipStyle" [matChipInputAddOnBlur]="addOnBlur"
+                    (matChipInputTokenEnd)="add($event)" (click)="Toggle()" readonly>
+            </mat-chip-list>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,70 @@
+<mat-dialog-content class="mat-typography">
+    <div class="row">
+        <div class="col-sm-8">
+            <div class="card" style="border: none">
+                <div class="card-body">
+                    <h1>Setting up categories and attributes for your project</h1>
+                    <p>This includes setting up categories, file attributes
+                        and label attributes with custom keyboard shortcuts
+                        for each label type.</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-sm-4"><img alt="Set up Image" src="/assets/icon.svg"></div>
+    </div>
+    <div class="row">
+        <div class="col-sm-2">
+            <div class="card" style="border: none;display: flexbox;">
+                <div class="list-group list-unstyled" style="text-align: center">
+                    <li><a href="#" class="list-group-item list-group-item-action border-0 active">Box</a></li>
+                    <li><a href="#" class="list-group-item list-group-item-action border-0">Lane</a></li>
+                    <li><a href="#" class="list-group-item list-group-item-action border-0">Point</a></li>
+                    <li><a href="#" class="list-group-item list-group-item-action border-0">Polygon</a></li>
+                </div>
+            </div>
+        </div>
+        <div class="col-sm-10">
+            <mat-tab-group mat-align-tabs="center">
+                <mat-tab label="Categories"></mat-tab>
+                <mat-tab label="File Attributes">
+                    <app-datacards *ngFor="let value of att; let i=index" [attributeName]="value.attributeName"
+                        (destroy)=Delete(i) [keyShortCut]="value.keyShortCut" [values]="value.values">
+                    </app-datacards>
+                    <form #form="ngForm">
+                        <div style="margin-top: 1rem">
+                            <mat-form-field appearance="outline" style="width:40%;padding-right: 10px;">
+                                <mat-label>Attribute Name</mat-label>
+                                <input matInput placeholder="Enter Attribute Name" #attributeName required>
+                            </mat-form-field>
+                            <mat-form-field appearance="outline" style="width:40%;">
+                                <mat-label>Keyboard Shortcut</mat-label>
+                                <input matInput placeholder="Enter Keyboard Shortcut" #keyShortCut required>
+                                <!-- (keydown)="catchKeystroke($event,this)" -->
+                            </mat-form-field>
+                        </div>
+                        <div>
+                            <mat-form-field style="width:80%" appearance="outline">
+                                <mat-chip-list #chipList aria-label="Value selection">
+                                    <mat-chip *ngFor="let value of values" [selectable]="selectable"
+                                        [removable]="removable" (removed)="remove(value)">
+                                        {{value.name}}
+                                        <mat-icon matChipRemove *ngIf="removable">cancel</mat-icon>
+                                    </mat-chip>
+                                    <input placeholder="Start typing attribute values" [matChipInputFor]="chipList"
+                                        [matChipInputSeparatorKeyCodes]="separatorKeysCodes" required
+                                        [matChipInputAddOnBlur]="addOnBlur" (matChipInputTokenEnd)="add($event)">
+                                </mat-chip-list>
+                            </mat-form-field>
+                            <button mat-raised-button color="primary" cdkFocusInitial style="margin-left: 3rem"
+                                (click)="addAttribute(attributeName,keyShortCut,values)">
+                                Add
+                            </button>
+                            <p *ngIf="show" class="font-weight-bolder text-danger font-italic">Enter All values</p>
+                        </div>
+                    </form>
+                </mat-tab>
+                <mat-tab label="Label Attributes"></mat-tab>
+            </mat-tab-group>
+        </div>
+    </div>
+</mat-dialog-content>
